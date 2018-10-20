@@ -5,6 +5,7 @@ namespace FoF\SecureHttps\Listeners;
 use Flarum\Api\Event\Serializing;
 use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Formatter\Event\Configuring;
+use Flarum\Http\UrlGenerator;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class ModifyContentHtml {
@@ -17,10 +18,29 @@ class ModifyContentHtml {
     }
 
     public function serializing(Serializing $event) {
-        $setting = app('flarum.settings')->get('fof-secure-https.proxy');
-
-        if (!(boolean) $setting && $event->isSerializer(BasicPostSerializer::class) && isset($event->attributes['contentHtml'])) {
+        if (!$this->isProxyEnabled() && $event->isSerializer(BasicPostSerializer::class) && isset($event->attributes['contentHtml'])) {
             $event->attributes['contentHtml'] = preg_replace($this->regex, $this->subst, $event->attributes['contentHtml']);
         }
+    }
+
+    public function configuring(Configuring $configuring) {
+        if ($this->isProxyEnabled()) {
+            $tag = $configuring->configurator->tags['IMG'];
+
+            if (!isset($tag)) return;
+
+            $tag->attributes['src']->filterChain
+                ->append([$this, 'replaceUrl'])
+                ->addParameterByValue(app(UrlGenerator::class)->to('api')->path('fof/secure-https/'));
+        }
+    }
+
+    function replaceUrl($attrValue, $proxyUrl) {
+        return $proxyUrl . urlencode($attrValue);
+    }
+
+
+    private function isProxyEnabled() {
+        return (boolean) app('flarum.settings')->get('fof-secure-https.proxy');
     }
 }
