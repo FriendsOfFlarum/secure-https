@@ -1,4 +1,4 @@
-# FoF Secure HTTPS
+# Secure HTTPS by FriendsOfFlarum
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/fof/secure-https.svg)](https://packagist.org/packages/fof/secure-https)
 
