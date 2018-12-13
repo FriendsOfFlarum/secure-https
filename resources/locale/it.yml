@@ -1,0 +1,8 @@
+fof-secure-https:
+  admin:
+    settings:
+      title: Configurazione
+      replace: Usa proxy per visualizzare le immagine con HTTPS
+  forum:
+    removed: Immagine rimossa perché non supporta HTTPS.
+    show: Mostra comunque
