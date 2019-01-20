@@ -46,7 +46,7 @@ class GetImageUrlController implements RequestHandlerInterface
 
         return new Response(
             200, [
-                'Content-Type' => 'image/'.substr($imgurl, -3),
+                'Content-Type' => 'image/'.substr(strrchr($imgurl, '.'), 1),
             ],
             file_get_contents($imgurl)
         );
