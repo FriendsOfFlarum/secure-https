@@ -11,16 +11,15 @@
 
 namespace FoF\SecureHttps\Api\Controllers;
 
-use Flarum\User\AssertPermissionTrait;
+use Flarum\User\User;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class GetImageUrlController implements RequestHandlerInterface
 {
-    use AssertPermissionTrait;
-
     /**
      * Handle the request and return a response.
      *
@@ -32,9 +31,14 @@ class GetImageUrlController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $this->assertCan($request->getAttribute('actor'), 'viewDiscussions');
+        /**
+         * @var User
+         */
+        $actor = $request->getAttribute('actor');
+        
+        $actor->assertCan('viewDiscussions');
 
-        $imgurl = array_get($request->getQueryParams(), 'imgurl');
+        $imgurl = Arr::get($request->getQueryParams(), 'imgurl');
 
         //Apache Support
         $imgurl = str_replace('%252F', '%2F', $imgurl);
