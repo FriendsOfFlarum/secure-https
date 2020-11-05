@@ -35,7 +35,7 @@ class GetImageUrlController implements RequestHandlerInterface
          * @var User
          */
         $actor = $request->getAttribute('actor');
-        
+
         $actor->assertCan('viewDiscussions');
 
         $imgurl = Arr::get($request->getQueryParams(), 'imgurl');
@@ -49,7 +49,8 @@ class GetImageUrlController implements RequestHandlerInterface
         }
 
         return new Response(
-            200, [
+            200,
+            [
                 'Content-Type' => 'image/'.substr($imgurl, -3),
             ],
             file_get_contents($imgurl)
