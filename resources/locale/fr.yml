@@ -1,8 +1,0 @@
-fof-secure-https:
-  admin:
-    settings:
-      title: Configuration
-      replace: Afficher les images via un proxy https
-  forum:
-    removed: Image supprimée, ne supporte pas les connexions sécurisées https.
-    show: Afficher quand même
