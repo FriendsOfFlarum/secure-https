@@ -15,28 +15,11 @@ use Flarum\Api\Event\Serializing;
 use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Formatter\Event\Configuring;
 use Flarum\Http\UrlGenerator;
-use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class ModifyContentHtml
 {
     private $regex = '/<img src="http:\/\/(.+?)" title="(.*?)" alt="(.*?)">/';
-
-    /**
-     * @var UrlGenerator
-     */
-    private $url;
-
-    /**
-     * @var SettingsRepositoryInterface
-     */
-    private $settings;
-
-    public function __construct(UrlGenerator $url, SettingsRepositoryInterface $settings)
-    {
-        $this->url = $url;
-        $this->settings = $settings;
-    }
 
     public function subscribe(Dispatcher $events)
     {
@@ -64,7 +47,7 @@ class ModifyContentHtml
 
             $tag->attributes['src']->filterChain
                 ->append([$this, 'replaceUrl'])
-                ->addParameterByValue($this->url->to('api')->path('fof/secure-https/'));
+                ->addParameterByValue(app(UrlGenerator::class)->to('api')->path('fof/secure-https/'));
         }
     }
 
@@ -75,6 +58,6 @@ class ModifyContentHtml
 
     private function isProxyEnabled()
     {
-        return (bool) $this->settings->get('fof-secure-https.proxy');
+        return (bool) app('flarum.settings')->get('fof-secure-https.proxy');
     }
 }
