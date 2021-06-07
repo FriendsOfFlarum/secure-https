@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/secure-https.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\SecureHttps;
 
 use Flarum\Http\UrlGenerator;
@@ -8,7 +17,7 @@ use s9e\TextFormatter\Configurator;
 use s9e\TextFormatter\Configurator\Items\Tag;
 
 class ConfigureFormatter
-{    
+{
     public function __invoke(Configurator $configurator)
     {
         $settings = resolve(SettingsRepositoryInterface::class);
