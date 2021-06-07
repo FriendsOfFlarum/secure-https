@@ -4,12 +4,14 @@
 
 A [Flarum](http://flarum.org) extension. Changes all images using HTTP to HTTPS.
 
+## Your forum **must** be accessible via `https` before this extension is activated.
+
 ### Installation
 
-Use [Bazaar](https://discuss.flarum.org/d/5151-flagrow-bazaar-the-extension-marketplace) or install manually with composer:
+Install with composer:
 
 ```sh
-composer require fof/secure-https
+composer require fof/secure-https:"*"
 ```
 
 ### Updating

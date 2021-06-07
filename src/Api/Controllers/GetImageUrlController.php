@@ -11,6 +11,7 @@
 
 namespace FoF\SecureHttps\Api\Controllers;
 
+use Flarum\Http\RequestUtil;
 use Flarum\User\User;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Arr;
@@ -34,7 +35,7 @@ class GetImageUrlController implements RequestHandlerInterface
         /**
          * @var User
          */
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
 
         $actor->assertCan('viewDiscussions');
 
