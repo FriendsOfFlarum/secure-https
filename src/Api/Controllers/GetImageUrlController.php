@@ -13,6 +13,7 @@ namespace FoF\SecureHttps\Api\Controllers;
 
 use Flarum\Http\RequestUtil;
 use Flarum\User\User;
+use FoF\SecureHttps\Exceptions\ImageNotFoundException;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
@@ -41,12 +42,14 @@ class GetImageUrlController implements RequestHandlerInterface
 
         $imgurl = Arr::get($request->getQueryParams(), 'imgurl');
 
-        //Apache Support
-        $imgurl = str_replace('%252F', '%2F', $imgurl);
-        $imgurl = urldecode($imgurl);
-
         if (!preg_match('/^https?:\/\//', $imgurl)) {
-            $imgurl = "http://$imgurl";
+            throw new ImageNotFoundException();
+        }
+
+        $contents = @file_get_contents($imgurl);
+
+        if (!$contents) {
+            throw new ImageNotFoundException();
         }
 
         return new Response(
@@ -54,7 +57,7 @@ class GetImageUrlController implements RequestHandlerInterface
             [
                 'Content-Type' => 'image/'.substr(strrchr($imgurl, '.'), 1),
             ],
-            file_get_contents($imgurl)
+            $contents
         );
     }
 }
