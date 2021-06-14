@@ -44,8 +44,18 @@ class GetImageUrlController implements RequestHandlerInterface
         $actor->assertCan('viewDiscussions');
 
         $imgurl = Arr::get($request->getQueryParams(), 'imgurl');
+        $host = parse_url($imgurl, PHP_URL_HOST);
+        $isIP = filter_var(
+            $host,
+            FILTER_VALIDATE_IP
+        );
+        $isPublicIP = filter_var(
+            $host,
+            FILTER_VALIDATE_IP,
+            FILTER_FLAG_NO_PRIV_RANGE |  FILTER_FLAG_NO_RES_RANGE
+        );
 
-        if (!preg_match('/^https?:\/\//', $imgurl)) {
+        if (!preg_match('/^https?:\/\//', $imgurl) || ($isIP && !$isPublicIP)) {
             throw new ImageNotFoundException();
         }
 
