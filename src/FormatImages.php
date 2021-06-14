@@ -1,8 +1,15 @@
 <?php
 
+/*
+ * This file is part of fof/secure-https.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace FoF\SecureHttps;
-
 
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
@@ -30,17 +37,17 @@ class FormatImages
     /**
      * Configure rendering for user mentions.
      *
-     * @param Renderer $renderer
-     * @param mixed $context
+     * @param Renderer    $renderer
+     * @param mixed       $context
      * @param string|null $xml
+     *
      * @return string $xml to be unparsed
      */
     public function __invoke(Renderer $renderer, $context, string $xml)
     {
         if ((bool) $this->settings->get('fof-secure-https.proxy', false)) {
             $xml = Utils::replaceAttributes($xml, 'IMG', function ($attributes) {
-
-                $attributes['src'] = $this->url->to('api')->route('fof.secure-https.imgurl') . '?imgurl=' . $attributes['src'];
+                $attributes['src'] = $this->url->to('api')->route('fof.secure-https.imgurl').'?imgurl='.$attributes['src'];
 
                 return $attributes;
             });
