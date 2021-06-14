@@ -14,8 +14,11 @@ namespace FoF\SecureHttps\Api\Controllers;
 use Flarum\Http\RequestUtil;
 use Flarum\User\User;
 use FoF\SecureHttps\Exceptions\ImageNotFoundException;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -46,16 +49,33 @@ class GetImageUrlController implements RequestHandlerInterface
             throw new ImageNotFoundException();
         }
 
-        $contents = @file_get_contents($imgurl);
+        $client = new Client();
 
-        if (!$contents) {
+        try {
+            $res = $client->request('GET', $imgurl, [
+                'headers' => [
+                    'Accept' => 'image/*',
+                ],
+            ]);
+        } catch (GuzzleException $e) {
+            if ($e->getCode() > 0 && $e->getCode() < 500) {
+                throw new ImageNotFoundException();
+            }
+
+            throw $e;
+        }
+
+        $type = $res->getHeaderLine('Content-Type');
+        $contents = $res->getBody();
+
+        if (!Str::startsWith($type, 'image/') || !$contents->getSize()) {
             throw new ImageNotFoundException();
         }
 
         return new Response(
-            200,
+            $res->getStatusCode(),
             [
-                'Content-Type' => 'image/'.substr(strrchr($imgurl, '.'), 1),
+                'Content-Type' => $res->getHeaderLine('Content-Type'),
             ],
             $contents
         );
