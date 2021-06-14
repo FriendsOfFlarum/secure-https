@@ -28,7 +28,7 @@ return [
         ),
 
     (new Extend\Formatter())
-        ->configure(ConfigureFormatter::class),
+        ->render(FormatImages::class),
 
     (new Extend\Middleware('forum'))
         ->add(Middlewares\ContentSecurityPolicyMiddleware::class),
