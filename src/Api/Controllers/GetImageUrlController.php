@@ -45,7 +45,7 @@ class GetImageUrlController implements RequestHandlerInterface
         $imgurl = str_replace('%252F', '%2F', $imgurl);
         $imgurl = urldecode($imgurl);
 
-        if (substr($imgurl, 0, 7) !== 'http://') {
+        if (!preg_match('/^https?:\/\//', $imgurl)) {
             $imgurl = "http://$imgurl";
         }
 
