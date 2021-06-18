@@ -1,4 +1,4 @@
-import app from 'flarum/app';
+import app from 'flarum/admin/app';
 
 app.initializers.add('fof/secure-https', () => {
   app.extensionData.for('fof-secure-https')

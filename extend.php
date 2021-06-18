@@ -11,9 +11,8 @@
 
 namespace FoF\SecureHttps;
 
+use Flarum\Api\Serializer\BasicPostSerializer;
 use Flarum\Extend;
-use Illuminate\Events\Dispatcher;
-use s9e\TextFormatter\Configurator;
 
 return [
     (new Extend\Frontend('admin'))
@@ -23,19 +22,17 @@ return [
 
     (new Extend\Routes('api'))
         ->get(
-            '/fof/secure-https/{imgurl}',
+            '/fof/secure-https',
             'fof.secure-https.imgurl',
             Api\Controllers\GetImageUrlController::class
         ),
 
     (new Extend\Formatter())
-        ->configure(function (Configurator $configurator) {
-        }),
+        ->render(FormatImages::class),
 
     (new Extend\Middleware('forum'))
         ->add(Middlewares\ContentSecurityPolicyMiddleware::class),
 
-    function (Dispatcher $dispatcher) {
-        $dispatcher->subscribe(Listeners\ModifyContentHtml::class);
-    },
+    (new Extend\ApiSerializer(BasicPostSerializer::class))
+        ->attributes(ModifyContentHtml::class),
 ];
