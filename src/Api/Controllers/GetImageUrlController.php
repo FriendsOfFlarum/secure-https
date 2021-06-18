@@ -43,7 +43,7 @@ class GetImageUrlController implements RequestHandlerInterface
 
         $actor->assertCan('viewDiscussions');
 
-        $imgurl = Arr::get($request->getQueryParams(), 'imgurl');
+        $imgurl = urldecode(Arr::get($request->getQueryParams(), 'imgurl'));
         $host = parse_url($imgurl, PHP_URL_HOST);
         $isIP = filter_var(
             $host,
