@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/fof/secure-https.svg)](https://packagist.org/packages/fof/secure-https)
 
-A [Flarum](http://flarum.org) extension. Changes all images using HTTP to HTTPS.
+A [Flarum](https://flarum.org/) extension. Changes all images in post content using HTTP to HTTPS.
 
 ## Your forum **must** be accessible via `https` before this extension is activated.
 
