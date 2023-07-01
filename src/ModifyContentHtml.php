@@ -22,7 +22,7 @@ class ModifyContentHtml
      */
     protected $settings;
 
-    protected $regex = '/<img src="http:\/\/(.+?)" title="(.*?)" alt="(.*?)">/';
+    protected $regex = '/<img src="http:\/\/([^"]+?)" (?:title="([^"]*?)" )?alt="([^"]*?)">/i';
 
     protected $subst = '<img onerror="$(this).next().empty().append(\'<blockquote style=&#92;&#39;background-color: #c0392b; color: white;&#92;&#39; class=&#92;&#39;uncited&#92;&#39;><div><p>\'+app.translator.trans(\'fof-secure-https.forum.removed\')+\' | <a href=&#92;&#39;http://$1&#92;&#39; style=&#92;&#39;color:white;&#92;&#39;target=&#92;&#39;_blank&#92;&#39;>\'+app.translator.trans(\'fof-secure-https.forum.show\')+\'</a></p></div></blockquote>\');$(this).hide();" onload="$(this).next().empty();" class="securehttps-replaced" src="https://$1" title="$2" alt="$3"><span><i class="icon fa fa-spinner fa-spin"></i> &nbsp;Loading Image</span>';
 
