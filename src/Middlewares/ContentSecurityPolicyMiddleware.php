@@ -31,6 +31,6 @@ class ContentSecurityPolicyMiddleware implements MiddlewareInterface
     {
         $response = $handler->handle($request);
 
-        return $response->withAddedHeader('Content-Security-Policy', 'img-src https: data:');
+        return $response->withAddedHeader('Content-Security-Policy', "img-src 'self' https: data: blob:");
     }
 }
