@@ -12,7 +12,6 @@
 namespace FoF\SecureHttps\Api\Controllers;
 
 use Flarum\Http\RequestUtil;
-use Flarum\User\User;
 use FoF\SecureHttps\Exceptions\ImageNotFoundException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
