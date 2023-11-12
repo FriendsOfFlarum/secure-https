@@ -36,9 +36,6 @@ class GetImageUrlController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        /**
-         * @var User
-         */
         $actor = RequestUtil::getActor($request);
 
         $actor->assertCan('viewForum');

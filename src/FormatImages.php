@@ -35,11 +35,9 @@ class FormatImages
     }
 
     /**
-     * Configure rendering for user mentions.
-     *
      * @param Renderer    $renderer
      * @param mixed       $context
-     * @param string|null $xml
+     * @param string      $xml
      *
      * @return string $xml to be unparsed
      */
