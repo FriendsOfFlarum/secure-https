@@ -12,7 +12,6 @@
 namespace FoF\SecureHttps\Api\Controllers;
 
 use Flarum\Http\RequestUtil;
-use Flarum\User\User;
 use FoF\SecureHttps\Exceptions\ImageNotFoundException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -36,9 +35,6 @@ class GetImageUrlController implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        /**
-         * @var User
-         */
         $actor = RequestUtil::getActor($request);
 
         $actor->assertCan('viewForum');
